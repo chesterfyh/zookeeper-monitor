@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.flynn.zk.DateTimeUtil;
+
 /**
  * 实时信息展示
  * @author flynn.fan
@@ -33,22 +35,25 @@ public class MessageTab extends JPanel {
 		
 		JScrollPane scrollpane = new JScrollPane(message);
 		
-		scrollpane.setBounds(0, 40, 990, 800);
+		scrollpane.setBounds(0, 40, 990, 750);
 		
 		inJPanel.add(scrollpane);
 		
 	}
 	
 	public void output(String info) {
-		infos.add(info);
+		
+		infos.add("["+DateTimeUtil.format(DateTimeUtil.millisTime())+"] "+info);
 		if(infos.size()>100) {
 			infos.removeFirst();
 		}
 		StringBuilder builder = new StringBuilder();
-		for (String string : infos) {
-			builder.append(string);
+		
+		for(int i=infos.size()-1;i>=0;i--) {
+			builder.append(infos.get(i));
 		}
 		message.setText(builder.toString());
+//		message.setCaretPosition(infos.size());//设置定位到底部
 	}
 //	public JTextArea getMessage() {
 //		return message;
